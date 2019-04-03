@@ -1,0 +1,8 @@
+C:\various\AtekneaAssesment\DatabaseOperations\bin\Debug\DatabaseOperations.dll
+C:\various\AtekneaAssesment\DatabaseOperations\bin\Debug\DatabaseOperations.pdb
+C:\various\AtekneaAssesment\DatabaseOperations\bin\Debug\MySql.Data.dll
+C:\various\AtekneaAssesment\DatabaseOperations\bin\Debug\Google.Protobuf.dll
+C:\various\AtekneaAssesment\DatabaseOperations\bin\Debug\MySql.Data.xml
+C:\various\AtekneaAssesment\DatabaseOperations\obj\Debug\DatabaseOperations.csprojResolveAssemblyReference.cache
+C:\various\AtekneaAssesment\DatabaseOperations\obj\Debug\DatabaseOperations.dll
+C:\various\AtekneaAssesment\DatabaseOperations\obj\Debug\DatabaseOperations.pdb

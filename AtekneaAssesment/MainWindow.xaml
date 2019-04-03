@@ -1,0 +1,26 @@
+﻿<Window x:Class="AtekneaAssesment.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AtekneaAssesment"
+        xmlns:graphLib="clr-namespace:GraphicsAteknea;assembly=GraphicsAteknea"
+        mc:Ignorable="d"
+        WindowStyle="SingleBorderWindow" 
+        Title="Ateknea - Simple Assesment"        
+        Height="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" 
+        Width="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}"
+        Icon="BackgroundImage\logotipe_ateknea.ico"
+        DataContext="{Binding}" Name="AtekneaApp" WindowState="Maximized" WindowStartupLocation="CenterScreen" MinHeight="780" MinWidth="850">
+    <Window.Background>
+        <ImageBrush ImageSource="BackgroundImage\daylight-environment.jpg" Opacity="0.6"></ImageBrush>
+    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="6*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <graphLib:DataBaseConnectionControl Grid.Row="0" Margin="40,0,0,0" Name="dbControl"></graphLib:DataBaseConnectionControl>
+        <graphLib:ListOfUsersControl Grid.Row="1" Name="listUsersControl"></graphLib:ListOfUsersControl>
+    </Grid>
+</Window>
