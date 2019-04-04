@@ -40,9 +40,10 @@ namespace GraphicsAteknea
         private bool _enableStat;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyChange(PropertyChangedEventArgs e)
+        private void NotifyChange(string propertyName)
         {
-            PropertyChanged?.Invoke(this, e);
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public string Name
@@ -51,7 +52,7 @@ namespace GraphicsAteknea
             set
             {
                 _name = value;
-                NotifyChange(new PropertyChangedEventArgs("Name"));
+                NotifyChange("Name");
             }
         }
         public string LastName
@@ -60,7 +61,7 @@ namespace GraphicsAteknea
             set
             {
                 _lastName = value;
-                NotifyChange(new PropertyChangedEventArgs("LastName"));
+                NotifyChange("LastName");
             }
         }
         public string Mail
@@ -69,7 +70,7 @@ namespace GraphicsAteknea
             set
             {
                 _mail = value;
-                NotifyChange(new PropertyChangedEventArgs("Mail"));
+                NotifyChange("Mail");
             }
         }
         public bool EnableStat
@@ -78,7 +79,7 @@ namespace GraphicsAteknea
             set
             {
                 _enableStat = value;
-                NotifyChange(new PropertyChangedEventArgs("EnableStat"));
+                NotifyChange("EnableStat");
             }
         }
     }

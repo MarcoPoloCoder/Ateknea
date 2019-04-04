@@ -20,9 +20,9 @@ namespace GraphicsAteknea
     /// </summary>
     public partial class DataBaseConnectionControl : UserControl
     {
-        public string UserText { get { return UserName.Text;} }
-        public string PasswordText { get { return Password.Text; } }
-        public string PortText { get { return Password.Text; } }
+        public string UserText { get; set; }
+        public string PasswordText { get; set; }
+        public string PortText {  get; set;} 
 
         //event from Refresh Button
         public static readonly RoutedEvent ConnectDdEv = EventManager.RegisterRoutedEvent("ConnectDb",
@@ -42,6 +42,10 @@ namespace GraphicsAteknea
 
         private void ConnectBtn_Click(object sender, RoutedEventArgs e)
         {
+            UserText = UserName.Text;
+            PortText = Port.Text;
+            PasswordText = Password.Text;
+
             RaiseEvent(new RoutedEventArgs(ConnectDdEv, this));
         }
     }

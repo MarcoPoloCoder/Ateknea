@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DatabaseOperations
 {
@@ -47,19 +48,16 @@ namespace DatabaseOperations
         {
             try
             {
-                string connectionStr = "Server=localhost;Port=" + _port + ";Uid=" + _userName + ";Pwd=" + _pswrd + ";Database=usersateknea";
+                string connectionStr = "Server=127.0.0.1;Port=" + _port + ";Uid=" + _userName + ";Pwd=" + _pswrd + ";Database=usersateknea";
                 _connection = new MySqlConnection(connectionStr);
                 _connection.Open();
-                if (_connection.Container == null)
-                {
-                    throw (new Exception("Error while retrieving connection information...\n\r Write a correct USERNAME/PASSWORD and check the server status."));
-                }
                 ConnectionStatus = true;
                 _connection.Close();
             }
             catch (Exception Ex)
             {
-                throw (Ex);
+                TryClosingConnection();
+                MessageBox.Show("Failed connecting to DB: \n\r" + Ex.Message, "ERROR INFO", MessageBoxButton.OK,MessageBoxImage.Error);
             }
         }
         /// <summary>
@@ -73,11 +71,11 @@ namespace DatabaseOperations
                 var cmd = new MySqlCommand(DeleteTableQuery, _connection);
                 var rows = cmd.ExecuteNonQuery();
                 _connection.Close();
-                if (rows < 1) { throw (new Exception("Error while trying to remove unexistent table...\n\r UsersTable was already removed")); }
             }
             catch (Exception Ex)
             {
-                throw (Ex);
+                TryClosingConnection();
+                MessageBox.Show("Failed deleting UsersTable due to: \n\r" + Ex.Message, "ERROR INFO", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         /// <summary>
@@ -94,7 +92,8 @@ namespace DatabaseOperations
             }
             catch (Exception Ex)
             {
-                throw (Ex);
+                TryClosingConnection();
+                MessageBox.Show("Failed creating UsersTable due to: \n\r" + Ex.Message, "ERROR INFO", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         /// <summary>
@@ -103,48 +102,62 @@ namespace DatabaseOperations
         /// <param name="usrList"></param>
         public void AddRowsUsersTable(List<DbUser> usrList)
         {
-            List<string> Rows = new List<string>();
-            foreach(var usr in usrList)
-            {
-                Rows.Add(string.Format("('{0}','{1}','{2}','{3}')", MySqlHelper.EscapeString(usr.Name), MySqlHelper.EscapeString(usr.LastName), MySqlHelper.EscapeString(usr.Mail), MySqlHelper.EscapeString(usr.Enabled)));
-            }
-            AddRowsQuery.Append(string.Join(",", Rows));
-            AddRowsQuery.Append(";");
-            _connection.Open();
-            using (MySqlCommand myCmd = new MySqlCommand(AddRowsQuery.ToString(), _connection))
-            {
-                myCmd.CommandType = CommandType.Text;
-                myCmd.ExecuteNonQuery();
-            }
-            _connection.Close();
-        }
-     /// <summary>
-     /// Read all rows on UsersTable
-     /// </summary>
-     /// <returns></returns>
-        public List<DbUser> ReadUsersTable()
-        {
-            try
-            {
-                var usrList = new List<DbUser>();
-                var cmd = new MySqlCommand(ReadAllUsersQuery, _connection);
-                var reader = cmd.ExecuteReader();
-                if (!reader.HasRows)
-                    throw (new Exception("UsersTable not found on the DB"));
-                while (reader.Read())
+            try 
+            { 
+                List<string> Rows = new List<string>();
+                foreach(var usr in usrList)
                 {
-                    usrList.Add(new DbUser() {Name = reader.GetString("Name"), LastName = reader.GetString("LastName"),
-                        Mail = reader.GetString("Mail"), Enabled = reader.GetString("Enabled") });  
+                    Rows.Add(string.Format("('{0}','{1}','{2}','{3}')", MySqlHelper.EscapeString(usr.Name), MySqlHelper.EscapeString(usr.LastName), MySqlHelper.EscapeString(usr.Mail), MySqlHelper.EscapeString(usr.Enabled)));
                 }
-                reader.Close();
-                return usrList;
+                AddRowsQuery.Append(string.Join(",", Rows));
+                AddRowsQuery.Append(";");
+                _connection.Open();
+                using (MySqlCommand myCmd = new MySqlCommand(AddRowsQuery.ToString(), _connection))
+                {
+                    myCmd.CommandType = CommandType.Text;
+                    myCmd.ExecuteNonQuery();
+                }
+                _connection.Close();
             }
             catch (Exception Ex)
             {
-                throw (Ex);
+                TryClosingConnection();
+                MessageBox.Show("Failed updating database due to: \n\r" + Ex.Message, "ERROR INFO", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            #endregion
         }
+        private void TryClosingConnection()
+        {
+            try
+            {
+                _connection.Close();
+            }
+            catch (Exception) { }
+        }
+         /// <summary>
+         /// Read all rows on UsersTable
+         /// </summary>
+         /// <returns></returns>
+        public List<DbUser> ReadUsersTable()
+        {
+            var usrList = new List<DbUser>();
+            var cmd = new MySqlCommand(ReadAllUsersQuery, _connection);
+            var reader = cmd.ExecuteReader();
+            if (!reader.HasRows)
+                throw (new Exception("UsersTable not found on the DB"));
+            while (reader.Read())
+            {
+                usrList.Add(new DbUser()
+                {
+                    Name = reader.GetString("Name"),
+                    LastName = reader.GetString("LastName"),
+                    Mail = reader.GetString("Mail"),
+                    Enabled = reader.GetString("Enabled")
+                });
+            }
+            reader.Close();
+            return usrList;
+        }
+        #endregion
     }
     /// <summary>
     /// Class to interact with UsersTable

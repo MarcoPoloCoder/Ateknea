@@ -83,7 +83,7 @@ namespace AtekneaAssesment
             }
             catch (Exception Ex)
             {
-                MessageBox.Show("Failed updating database due to: \n\r" + Ex.Message, "ERROR INFO");
+                MessageBox.Show("Failed updating database due to: \n\r" + Ex.Message, "ERROR INFO", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -147,10 +147,9 @@ namespace AtekneaAssesment
             }
             catch (Exception Ex)
             {
-                MessageBox.Show("Failed updating database due to: \n\r" + Ex.Message, "ERROR INFO");
+                MessageBox.Show("Failed updating database due to: \n\r" + Ex.Message, "ERROR INFO", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
 
     }
 }
