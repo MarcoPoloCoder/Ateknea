@@ -16,7 +16,7 @@ DataContext and ObservableCollections wich are 'glue code' wor the WPF architect
 Then, I've separated all the 'Database operations' in another CSPROJ so in the end the main project is only in charge of merging graphics
 interaction with filesystem stuff (in this case database).
 
-I know the MainWindow intead of having a single parallel task I should have a Queue<task> and manage it with interlock.increment or a TaskScheduler,
+I know the MainWindow instead of having a single parallel task, it should have a Queue<task> and manage it with interlock.increment or a TaskScheduler,
 but the time comes fast and I should deliver the job.
 
 
@@ -34,4 +34,4 @@ but the time comes fast and I should deliver the job.
 - SW executable - there is a .zip folder on the root folder containing the .exe it is called AtekneaApp.zip
   I couldn't have enough time to make the InnoSetup File.
   
-  I hope you like this project and maybe I can continue updating this repository. 
+  I hope you'll like this project and maybe I can continue updating this repository. 
